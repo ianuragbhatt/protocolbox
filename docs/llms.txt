@@ -1,0 +1,107 @@
+# ProtocolBox — The Standard Library for AI Agents
+
+> Project: ProtocolBox
+> Version: 0.1.0
+> Website: https://protocolbox.in
+> Repo: https://github.com/your-org/protocolbox
+
+## Installation
+
+To use ProtocolBox, run:
+
+```
+pip install protocolbox
+protocolbox init
+```
+
+Or with uv:
+
+```
+uv pip install protocolbox
+uv run protocolbox init
+```
+
+## Starting the MCP Server
+
+```
+protocolbox start
+```
+
+Or:
+
+```
+uv run protocolbox start
+```
+
+## Available Tools
+
+### scrape(url: str) -> str
+
+Fetch a web page and return its content as clean Markdown.
+Strips scripts, styles, and footers for token-efficient reading.
+
+Use this tool for:
+- Reading web pages without wasting tokens on HTML boilerplate.
+- Extracting article content, documentation, or product info.
+
+Example:
+```json
+{"url": "https://example.com/article"}
+```
+
+Returns: Markdown string of the page content.
+
+---
+
+### heal_json(broken_json: str) -> dict
+
+Repair malformed JSON and return a valid Python dictionary.
+Handles trailing commas, unquoted keys, single quotes, and truncated output.
+
+Use this tool for:
+- Fixing broken JSON from LLM outputs.
+- Recovering data from malformed API responses.
+
+Example:
+```json
+{"broken_json": "{'name': 'Alice', 'age': 30,}"}
+```
+
+Returns: `{"name": "Alice", "age": 30}`
+
+---
+
+### generate_invoice(data: dict) -> str
+
+Generate a professional PDF invoice from structured data.
+
+Required fields in `data`:
+- `client_name` (str): Name of the client.
+- `total` (float): Invoice total amount.
+
+Optional fields:
+- `invoice_number` (str): Custom invoice number.
+- `items` (list): Line items with `description`, `qty`, `price`.
+- `currency` (str): Currency symbol (default: "$").
+- `notes` (str): Additional notes.
+
+Example:
+```json
+{
+  "data": {
+    "client_name": "Acme Corp",
+    "total": 1500.00,
+    "items": [
+      {"description": "Consulting", "qty": 10, "price": 150.00}
+    ]
+  }
+}
+```
+
+Returns: File path to the generated PDF (e.g., `/tmp/invoice_abc123.pdf`).
+
+---
+
+## Support
+
+Report issues: https://github.com/your-org/protocolbox/issues
