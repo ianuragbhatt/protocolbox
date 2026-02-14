@@ -1,9 +1,9 @@
 # ProtocolBox 📦
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-white.svg)](LICENSE)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-white.svg)](https://python.org)
-[![Ruff](https://img.shields.io/badge/linting-ruff-white.svg)](https://docs.astral.sh/ruff/)
-[![MCP](https://img.shields.io/badge/protocol-MCP-white.svg)](https://modelcontextprotocol.io/)
+[![PyPI Version](https://img.shields.io/pypi/v/protocolbox?style=for-the-badge&color=blue)](https://pypi.org/project/protocolbox/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![MCP Compliant](https://img.shields.io/badge/MCP-Compliant-orange?style=for-the-badge)](https://modelcontextprotocol.io/)
+[![Built for Antigravity](https://img.shields.io/badge/Built%20for-Antigravity-purple?style=for-the-badge)](https://protocolbox.in)
 
 > **The Standard Library for the Agentic Web.**  
 > https://protocolbox.in
