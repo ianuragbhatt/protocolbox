@@ -1,6 +1,6 @@
 [project]
 name = "protocolbox"
-version = "0.1.0"
+version = "0.1.2"
 description = "The Standard Library for the Agentic Web — verified MCP tools for any AI Agent."
 readme = "README.md"
 authors = [
