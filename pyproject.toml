@@ -1,10 +1,10 @@
 [project]
 name = "protocolbox"
-version = "0.1.0"
+version = "0.1.2"
 description = "The Standard Library for the Agentic Web — verified MCP tools for any AI Agent."
 readme = "README.md"
 authors = [
-  { name = "Anurag Bhatt", email = "anurag@protocolbox.in" },
+  { name = "Anurag Bhatt", email = "anur4g.bhatt@gmail.com" },
 ]
 requires-python = ">=3.11"
 classifiers = [

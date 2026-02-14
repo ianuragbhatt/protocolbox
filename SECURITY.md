@@ -13,7 +13,7 @@ If you discover a security vulnerability in ProtocolBox, please report it privat
 
 **DO NOT** open a public issue.
 
-Instead, please email **anurag@protocolbox.in** with:
+Instead, please email **anur4g.bhatt@gmail.com** with:
 
 - A description of the vulnerability.
 - Steps to reproduce.
