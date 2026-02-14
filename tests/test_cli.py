@@ -29,9 +29,7 @@ class TestCliInit:
         result = runner.invoke(app, ["init"])
         assert "protocolbox start" in result.output
 
-    def test_init_antigravity_detected(
-        self, tmp_path: Path
-    ) -> None:
+    def test_init_antigravity_detected(self, tmp_path: Path) -> None:
         """When Antigravity is detected, init should say so."""
         with patch(
             "protocolbox.cli._detect_antigravity",
@@ -115,21 +113,15 @@ class TestDetectAntigravity:
                 result = _detect_antigravity()
         assert result == ag_dir
 
-    def test_returns_none_when_not_found(
-        self, tmp_path: Path
-    ) -> None:
+    def test_returns_none_when_not_found(self, tmp_path: Path) -> None:
         """Should return None when no Antigravity env found."""
-        with patch(
-            "protocolbox.cli.Path.home", return_value=tmp_path
-        ):
+        with patch("protocolbox.cli.Path.home", return_value=tmp_path):
             with patch.dict(os.environ, {}, clear=False):
                 os.environ.pop("ANTIGRAVITY_HOME", None)
                 result = _detect_antigravity()
         assert result is None
 
-    def test_env_var_takes_priority(
-        self, tmp_path: Path
-    ) -> None:
+    def test_env_var_takes_priority(self, tmp_path: Path) -> None:
         """Env var should take priority over directory."""
         ag_dir = tmp_path / ".antigravity"
         ag_dir.mkdir()
@@ -148,9 +140,7 @@ class TestCliHelp:
         """Running without args should show help (exit 0)."""
         result = runner.invoke(app, [])
         # no_args_is_help=True causes Typer to show help
-        assert "protocolbox" in result.output.lower() or (
-            result.exit_code in (0, 2)
-        )
+        assert "protocolbox" in result.output.lower() or (result.exit_code in (0, 2))
 
     def test_help_flag(self) -> None:
         """--help should display usage info."""

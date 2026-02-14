@@ -181,9 +181,7 @@ class TestHealJsonEdgeCases:
             '{"a": 1}',
         ]
         for inp in inputs:
-            assert isinstance(heal_json(inp), dict), (
-                f"Failed for input: {inp!r}"
-            )
+            assert isinstance(heal_json(inp), dict), f"Failed for input: {inp!r}"
 
     def test_boolean_values_preserved(self) -> None:
         """Boolean values should be Python bool, not strings."""
