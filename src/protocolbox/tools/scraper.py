@@ -40,9 +40,7 @@ def scrape(url: str) -> str:
     html = re.sub(
         r"<script[^>]*>.*?</script>", "", html, flags=re.DOTALL | re.IGNORECASE
     )
-    html = re.sub(
-        r"<style[^>]*>.*?</style>", "", html, flags=re.DOTALL | re.IGNORECASE
-    )
+    html = re.sub(r"<style[^>]*>.*?</style>", "", html, flags=re.DOTALL | re.IGNORECASE)
     html = re.sub(
         r"<footer[^>]*>.*?</footer>", "", html, flags=re.DOTALL | re.IGNORECASE
     )

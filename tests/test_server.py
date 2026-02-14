@@ -19,10 +19,7 @@ class TestToolRegistration:
     """Verify all tools are properly registered."""
 
     def _tool_names(self) -> list[str]:
-        return [
-            tool.name
-            for tool in mcp._tool_manager.list_tools()
-        ]
+        return [tool.name for tool in mcp._tool_manager.list_tools()]
 
     def test_scrape_registered(self) -> None:
         assert "scrape" in self._tool_names()
@@ -47,10 +44,7 @@ class TestToolDescriptions:
     """Verify tools have non-empty descriptions."""
 
     def _tools_by_name(self) -> dict:
-        return {
-            tool.name: tool
-            for tool in mcp._tool_manager.list_tools()
-        }
+        return {tool.name: tool for tool in mcp._tool_manager.list_tools()}
 
     def test_scrape_has_description(self) -> None:
         tools = self._tools_by_name()
