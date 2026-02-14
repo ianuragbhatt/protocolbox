@@ -1,7 +1,7 @@
 # ProtocolBox — The Standard Library for AI Agents
 
 > Project: ProtocolBox
-> Version: 0.1.0
+> Version: 0.1.3
 > Website: https://protocolbox.in
 > Repo: https://github.com/ianuragbhatt/protocolbox
 
@@ -68,37 +68,6 @@ Example:
 ```
 
 Returns: `{"name": "Alice", "age": 30}`
-
----
-
-### generate_invoice(data: dict) -> str
-
-Generate a professional PDF invoice from structured data.
-
-Required fields in `data`:
-- `client_name` (str): Name of the client.
-- `total` (float): Invoice total amount.
-
-Optional fields:
-- `invoice_number` (str): Custom invoice number.
-- `items` (list): Line items with `description`, `qty`, `price`.
-- `currency` (str): Currency symbol (default: "$").
-- `notes` (str): Additional notes.
-
-Example:
-```json
-{
-  "data": {
-    "client_name": "Acme Corp",
-    "total": 1500.00,
-    "items": [
-      {"description": "Consulting", "qty": 10, "price": 150.00}
-    ]
-  }
-}
-```
-
-Returns: File path to the generated PDF (e.g., `/tmp/invoice_abc123.pdf`).
 
 ---
 

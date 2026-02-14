@@ -6,7 +6,6 @@ mcp = FastMCP("ProtocolBox")
 
 # Import tools so they register with the MCP server.
 # Each tool module uses the `mcp` instance via import.
-import protocolbox.tools.invoice  # noqa: F401, E402
 import protocolbox.tools.json_healer  # noqa: F401, E402
 import protocolbox.tools.scraper  # noqa: F401, E402
 

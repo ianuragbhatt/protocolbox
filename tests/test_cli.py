@@ -73,7 +73,6 @@ class TestWriteSkillFile:
         assert "protocolbox" in content
         assert "scrape" in content
         assert "heal_json" in content
-        assert "generate_invoice" in content
 
     def test_creates_parent_dirs(self, tmp_path: Path) -> None:
         """Should create parent directories if needed."""

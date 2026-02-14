@@ -25,13 +25,12 @@ protocolbox init
 
 ## 🛠️ Tools
 
-ProtocolBox currently exports 3 core tools optimized for agent workflows:
+ProtocolBox currently exports 2 core tools optimized for agent workflows:
 
 | Tool | Signature | Description |
 | :--- | :--- | :--- |
 | **Scrape** | `scrape(url: str) -> str` | Fetches a webpage and converts it to clean, token-saving Markdown. Removes ads, scripts, and clutter automatically. |
 | **Heal JSON** | `heal_json(json_str: str) -> dict` | repairs malformed JSON strings often produced by LLMs (trailing commas, missing quotes, etc.) into valid Python dictionaries. |
-| **Invoice** | `generate_invoice(data: dict) -> str` | Generates a professional PDF invoice from structured data in milliseconds. |
 
 ## ⚡ Usage
 

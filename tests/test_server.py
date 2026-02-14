@@ -27,12 +27,9 @@ class TestToolRegistration:
     def test_heal_json_registered(self) -> None:
         assert "heal_json" in self._tool_names()
 
-    def test_generate_invoice_registered(self) -> None:
-        assert "generate_invoice" in self._tool_names()
-
-    def test_exactly_three_tools(self) -> None:
-        """There should be exactly 3 registered tools."""
-        assert len(self._tool_names()) == 3
+    def test_exactly_two_tools(self) -> None:
+        """There should be exactly 2 registered tools."""
+        assert len(self._tool_names()) == 2
 
     def test_no_duplicate_tools(self) -> None:
         """No tool name should appear more than once."""
@@ -56,11 +53,6 @@ class TestToolDescriptions:
         assert tools["heal_json"].description
         assert len(tools["heal_json"].description) > 10
 
-    def test_generate_invoice_has_description(self) -> None:
-        tools = self._tools_by_name()
-        assert tools["generate_invoice"].description
-        assert len(tools["generate_invoice"].description) > 10
-
 
 class TestPackageImports:
     """Verify package-level imports work correctly."""
@@ -68,18 +60,16 @@ class TestPackageImports:
     def test_version_available(self) -> None:
         from protocolbox import __version__
 
-        assert __version__ == "0.1.0"
+        assert __version__ == "0.1.3"
 
     def test_tools_importable_from_package(self) -> None:
         from protocolbox.tools import (
-            generate_invoice,
             heal_json,
             scrape,
         )
 
         assert callable(scrape)
         assert callable(heal_json)
-        assert callable(generate_invoice)
 
     def test_server_importable(self) -> None:
         from protocolbox.server import main

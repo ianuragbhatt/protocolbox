@@ -57,8 +57,7 @@ protocolbox/
 │       ├── __init__.py      # Tool exports
 │       ├── utils.py         # Shared utilities (HTTP client)
 │       ├── scraper.py       # scrape() tool
-│       ├── json_healer.py   # heal_json() tool
-│       └── invoice.py       # generate_invoice() tool
+│       └── json_healer.py   # heal_json() tool
 ├── tests/                   # Test suite (mirrors tool structure)
 ├── docs/                    # Documentation & landing page
 ├── pyproject.toml           # Project config
