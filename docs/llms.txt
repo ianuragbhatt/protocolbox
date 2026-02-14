@@ -3,7 +3,7 @@
 > Project: ProtocolBox
 > Version: 0.1.0
 > Website: https://protocolbox.in
-> Repo: https://github.com/your-org/protocolbox
+> Repo: https://github.com/ianuragbhatt/protocolbox
 
 ## Installation
 
@@ -104,4 +104,4 @@ Returns: File path to the generated PDF (e.g., `/tmp/invoice_abc123.pdf`).
 
 ## Support
 
-Report issues: https://github.com/your-org/protocolbox/issues
+Report issues: https://github.com/ianuragbhatt/protocolbox/issues

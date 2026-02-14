@@ -1,124 +1,87 @@
 # ProtocolBox 📦
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-green.svg)](https://python.org)
-[![Ruff](https://img.shields.io/badge/linting-ruff-orange.svg)](https://docs.astral.sh/ruff/)
-[![MCP](https://img.shields.io/badge/protocol-MCP-purple.svg)](https://modelcontextprotocol.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-white.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-white.svg)](https://python.org)
+[![Ruff](https://img.shields.io/badge/linting-ruff-white.svg)](https://docs.astral.sh/ruff/)
+[![MCP](https://img.shields.io/badge/protocol-MCP-white.svg)](https://modelcontextprotocol.io/)
 
-> **The Standard Library for the Agentic Web.**
+> **The Standard Library for the Agentic Web.**  
+> https://protocolbox.in
 
-ProtocolBox is an open-source collection of high-reliability [MCP](https://modelcontextprotocol.io/) tools that any AI Agent — Claude, Gemini, Antigravity — can install and use immediately.
+ProtocolBox is a collection of high-reliability **[MCP (Model Context Protocol)](https://modelcontextprotocol.io/)** tools designed for AI Agents. It provides verified, token-efficient utilities that work out-of-the-box with Claude, Gemini, and other MCP-compliant agents.
 
-## Quick Start
+## 🚀 Installation
 
 ```bash
 pip install protocolbox
+```
+
+Initialize the configuration for your agent:
+
+```bash
 protocolbox init
+```
+
+## 🛠️ Tools
+
+ProtocolBox currently exports 3 core tools optimized for agent workflows:
+
+| Tool | Signature | Description |
+| :--- | :--- | :--- |
+| **Scrape** | `scrape(url: str) -> str` | Fetches a webpage and converts it to clean, token-saving Markdown. Removes ads, scripts, and clutter automatically. |
+| **Heal JSON** | `heal_json(json_str: str) -> dict` | repairs malformed JSON strings often produced by LLMs (trailing commas, missing quotes, etc.) into valid Python dictionaries. |
+| **Invoice** | `generate_invoice(data: dict) -> str` | Generates a professional PDF invoice from structured data in milliseconds. |
+
+## ⚡ Usage
+
+Start the MCP server to expose these tools to your agent:
+
+```bash
 protocolbox start
 ```
 
-## Available Tools
-
-| Tool | Category | Description |
-|------|----------|-------------|
-| `scrape(url)` | Token Saver | Fetch any web page and return clean Markdown. Strips scripts, styles, and footers. |
-| `heal_json(broken_json)` | Reliability | Fix malformed JSON output from LLMs. Handles trailing commas, unquoted keys, truncated output. |
-| `generate_invoice(data)` | Business Output | Generate a professional PDF invoice from structured data. |
-
-## How It Works
-
-```
-Agent  →  MCP Protocol  →  ProtocolBox Server  →  Tool (scrape / heal / invoice)
-```
-
-ProtocolBox exposes an MCP server that AI agents connect to. Each tool is a verified, type-checked function with robust error handling.
-
-## Development
-
-### Prerequisites
-
-- **Python 3.11+**
-- [**uv**](https://docs.astral.sh/uv/) (recommended) or pip
-
-### Setup
+Or using `uv`:
 
 ```bash
-# Clone the repo
+uv run protocolbox start
+```
+
+## 📦 Project Structure
+
+```text
+protocolbox/
+├── src/protocolbox/      # Core package
+│   ├── server.py         # FastMCP server
+│   ├── cli.py            # CLI entry point
+│   └── tools/            # Tool implementations
+├── tests/                # 115+ edge-case tests
+├── docs/                 # Documentation site
+└── pyproject.toml        # Project config
+```
+
+## 👨‍💻 Development
+
+We recommend [uv](https://docs.astral.sh/uv/) for a fast, reliable dev environment.
+
+```bash
+# Clone and setup
 git clone https://github.com/ianuragbhatt/protocolbox.git
 cd protocolbox
+uv pip install -e ".[dev]"
 
-# Install in editable mode with dev dependencies
-pip install -e ".[dev]"
-```
-
-### Running Tests
-
-```bash
-# All tests (115 tests with edge-case coverage)
+# Run tests (100% pass rate required)
 pytest tests/ -v
 
-# Specific tool
-pytest tests/test_scraper.py -v
+# Linting
+ruff check .
 ```
 
-### Linting
+## 🤝 Contributing
 
-```bash
-ruff check .          # Check
-ruff check . --fix    # Auto-fix
-```
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to add new tools.
 
-## Contributing
-
-We welcome contributions! See our **[Contributing Guide](CONTRIBUTING.md)** for:
-
-- Development setup instructions
-- How to add a new tool (step-by-step)
-- Code standards and testing requirements
-- Pull request process
-
-Please also read our **[Code of Conduct](CODE_OF_CONDUCT.md)**.
-
-### Quick contribution checklist
-
-1. Fork → Clone → Branch
-2. Make your changes
-3. `pytest tests/ -v` — all tests pass
-4. `ruff check .` — no lint errors
-5. Open a PR
-
-## Project Structure
-
-```
-protocolbox/
-├── src/protocolbox/
-│   ├── server.py           # FastMCP server engine
-│   ├── cli.py              # CLI (init + start)
-│   └── tools/
-│       ├── scraper.py      # scrape() tool
-│       ├── json_healer.py  # heal_json() tool
-│       └── invoice.py      # generate_invoice() tool
-├── tests/                  # 115 tests with edge-case coverage
-├── docs/                   # Landing page + llms.txt
-├── .github/                # Issue & PR templates
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-└── pyproject.toml
-```
-
-## Documentation
-
-- **[llms.txt](docs/llms.txt)** — Agent-readable tool manual
-- **[Landing Page](docs/index.html)** — Human-readable project page
-
-## Maintainer
-
-**Anurag Bhatt** — [@anuragbhatt](https://github.com/anuragbhatt)
+**Maintainer:** [Anurag Bhatt (@ianuragbhatt)](https://github.com/ianuragbhatt)
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
-
----
-
-*Built for the Agentic Web 🚀*
+MIT © 2026 ProtocolBox.
