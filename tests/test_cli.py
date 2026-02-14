@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 from typer.testing import CliRunner
 
-from protocolbox.cli import app, _detect_antigravity, _write_skill_file
+from protocolbox.cli import _detect_antigravity, _write_skill_file, app
 
 runner = CliRunner()
 
