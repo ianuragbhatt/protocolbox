@@ -104,7 +104,7 @@ def init() -> None:
 @app.command()
 def start() -> None:
     """Start the ProtocolBox MCP server."""
-    typer.echo("🚀 Starting ProtocolBox MCP Server...")
+    typer.echo("🚀 Starting ProtocolBox MCP Server...", err=True)
     from protocolbox.server import main
 
     main()
