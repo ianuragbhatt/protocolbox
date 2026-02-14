@@ -3,8 +3,16 @@ name = "protocolbox"
 version = "0.1.0"
 description = "The Standard Library for the Agentic Web — verified MCP tools for any AI Agent."
 readme = "README.md"
-license = {text = "MIT"}
+authors = [
+  { name = "Anurag Bhatt", email = "anurag@protocolbox.in" },
+]
 requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = [
     "mcp>=0.1.0",
     "html2text",
@@ -13,6 +21,11 @@ dependencies = [
     "httpx",
     "typer",
 ]
+
+[project.urls]
+Homepage = "https://github.com/ianuragbhatt/protocolbox"
+Repository = "https://github.com/ianuragbhatt/protocolbox"
+Issues = "https://github.com/ianuragbhatt/protocolbox/issues"
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff"]
