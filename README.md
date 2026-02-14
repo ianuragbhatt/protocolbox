@@ -1,10 +1,6 @@
 # ProtocolBox 📦
 
-[![PyPI Version](https://img.shields.io/pypi/v/protocolbox?style=for-the-badge&color=blue)](https://pypi.org/project/protocolbox/)
-[![Python Version](https://img.shields.io/pypi/pyversions/protocolbox?style=for-the-badge&color=blue)](https://pypi.org/project/protocolbox/)
-[![Downloads](https://img.shields.io/pypi/dm/protocolbox?style=for-the-badge&color=blue)](https://pypi.org/project/protocolbox/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-
 [![Build Status](https://img.shields.io/github/actions/workflow/status/ianuragbhatt/protocolbox/ci.yml?branch=master&style=for-the-badge)](https://github.com/ianuragbhatt/protocolbox/actions)
 [![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg?style=for-the-badge)](https://github.com/astral-sh/ruff)
 [![MCP Compliant](https://img.shields.io/badge/MCP-Compliant-orange?style=for-the-badge)](https://modelcontextprotocol.io/)
