@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ianuragbhatt/protocolbox"
+Homepage = "https://protocolbox.in"
 Repository = "https://github.com/ianuragbhatt/protocolbox"
 Issues = "https://github.com/ianuragbhatt/protocolbox/issues"
 
