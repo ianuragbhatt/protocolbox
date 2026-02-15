@@ -1,321 +1,409 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="ProtocolBox — The Standard Library for the Agentic Web. Verified MCP tools for AI Agents.">
-    <title>ProtocolBox</title>
+    <title>ProtocolBox | Standard Library for Agents</title>
+    <meta name="description" content="Verified infrastructure for AI Agents.">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        base: '#050505',
+                        panel: '#0F0F0F',
+                        border: '#262626',
+                        accent: '#FF6B6B',
+                        accent_dim: 'rgba(255, 107, 107, 0.1)',
+                        txt: '#EDEDED',
+                        dim: '#888888',
+                        code: '#1A1A1A'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg: #0d0d0d;
-            --text: #ededed;
-            --text-muted: #888888;
-            --border: #262626;
-            --accent: #ffffff;
-            --code-bg: #171717;
-            --radius: 8px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
+            background-color: #050505;
+            color: #EDEDED;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s;
+        ::-webkit-scrollbar {
+            width: 6px;
         }
 
-        a:hover {
-            color: var(--accent);
+        ::-webkit-scrollbar-track {
+            background: #050505;
         }
 
-        .container {
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 3px;
         }
 
-        /* Nav */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 80px;
-            font-size: 0.9rem;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF6B6B;
         }
 
-        .logo {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            color: var(--text-muted);
-        }
-
-        .nav-links a:hover {
-            color: var(--text);
-        }
-
-        /* Hero */
-        header {
-            margin-bottom: 80px;
-        }
-
-        h1 {
-            font-weight: 600;
-            font-size: 2.5rem;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-            color: var(--accent);
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 32px;
-            max-width: 480px;
-        }
-
-        /* GitHub Badge */
-        .gh-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            background: var(--code-bg);
-            border: 1px solid var(--border);
-            border-radius: 99px;
-            font-size: 0.85rem;
-            color: var(--text);
-            transition: border-color 0.2s;
-        }
-
-        .gh-badge:hover {
-            border-color: var(--text-muted);
-        }
-
-        .star-count {
-            color: var(--text-muted);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Install Command */
-        .install-block {
-            background: var(--code-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 60px;
-            color: var(--text-muted);
-        }
-
-        .cmd {
-            color: var(--text);
-        }
-
-        .copy-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.8rem;
-        }
-
-        .copy-btn:hover {
-            color: var(--text);
-        }
-
-        /* Tools Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 80px;
-        }
-
-        .card {
-            padding: 24px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            transition: border-color 0.2s;
-        }
-
-        .card:hover {
-            border-color: var(--text-muted);
-        }
-
-        .tool-name {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
-
-        .tool-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border);
-            padding-top: 40px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            footer {
-                flex-direction: column;
-                gap: 20px;
-            }
+        .hero-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(255, 107, 107, 0.08) 0%, transparent 50%);
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <nav>
-            <a href="/" class="logo">ProtocolBox</a>
-            <div class="nav-links">
-                <a href="https://github.com/ianuragbhatt/protocolbox/blob/master/CONTRIBUTING.md">Contribute</a>
-                <a href="/llms.txt">llms.txt</a>
-                <a href="https://github.com/ianuragbhatt/protocolbox">GitHub ↗</a>
+<body class="font-sans antialiased flex min-h-screen">
+
+    <!-- Left Sidebar -->
+    <aside class="fixed inset-y-0 left-0 w-72 bg-base border-r border-border hidden lg:flex flex-col z-50">
+        <div class="h-16 flex items-center px-6 border-b border-border">
+            <div class="w-6 h-6 bg-txt rounded-full flex items-center justify-center mr-3">
+                <div class="w-2 h-2 bg-base rounded-full"></div>
+            </div>
+            <span class="font-bold text-lg tracking-tight">ProtocolBox</span>
+            <span class="ml-auto text-[10px] font-mono text-accent bg-accent_dim px-2 py-0.5 rounded-full">v0.1.4</span>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-8">
+            <div>
+                <div class="text-xs font-mono text-dim uppercase tracking-widest mb-4 px-2">Getting Started</div>
+                <ul class="space-y-1">
+                    <li><a href="#install"
+                            class="block px-2 py-2 text-sm text-txt hover:bg-panel rounded transition font-medium">Installation</a>
+                    </li>
+                    <li><a href="#quickstart"
+                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">Quickstart</a>
+                    </li>
+                    <li><a href="/llms.txt"
+                            class="block px-2 py-2 text-sm text-accent hover:bg-accent_dim rounded transition font-medium">For
+                            Agents (llms.txt)</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="text-xs font-mono text-dim uppercase tracking-widest mb-4 px-2">Core Modules</div>
+                <ul class="space-y-1">
+                    <li><a href="#web"
+                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition flex justify-between">
+                            <span>Web Tools</span> <code
+                                class="text-[10px] text-dim border border-border px-1 rounded">3 tools</code>
+                        </a></li>
+                    <li><a href="#logic"
+                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition flex justify-between">
+                            <span>Logic & Math</span> <code
+                                class="text-[10px] text-dim border border-border px-1 rounded">2 tools</code>
+                        </a></li>
+                    <li><a href="#utility"
+                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition flex justify-between">
+                            <span>Utilities</span> <code
+                                class="text-[10px] text-dim border border-border px-1 rounded">3 tools</code>
+                        </a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="text-xs font-mono text-dim uppercase tracking-widest mb-4 px-2">Resources</div>
+                <ul class="space-y-1">
+                    <li><a href="https://github.com/ianuragbhatt/protocolbox"
+                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">GitHub
+                            Repository</a></li>
+                    <li><a href="https://github.com/ianuragbhatt/protocolbox/blob/master/CONTRIBUTING.md"
+                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">Contributing</a>
+                    </li>
+                    <li><a href="https://github.com/ianuragbhatt/protocolbox/blob/master/LICENSE"
+                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">License
+                            (MIT)</a></li>
+                </ul>
             </div>
         </nav>
+    </aside>
 
-        <header>
-            <h1>The Standard Library<br>for the Agentic Web.</h1>
-            <p class="subtitle">
-                Verified MCP tools for AI Agents. Search the web, scrape pages, fix JSON, do math, and more. One
-                command.
-            </p>
+    <!-- Main Content -->
+    <main class="lg:pl-72 w-full min-h-screen bg-base relative">
+        <div class="hero-glow absolute inset-0 pointer-events-none"></div>
 
-            <a href="https://github.com/ianuragbhatt/protocolbox" class="gh-badge">
-                <svg height="16" viewBox="0 0 16 16" width="16" fill="currentColor">
-                    <path
-                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-                    </path>
-                </svg>
-                Star on GitHub
-                <span class="star-count" id="stars">...</span>
-            </a>
+        <!-- Mobile Header -->
+        <header
+            class="lg:hidden h-16 border-b border-border flex items-center px-6 sticky top-0 bg-base/80 backdrop-blur z-40">
+            <span class="font-bold text-lg">ProtocolBox</span>
+            <span class="ml-2 text-[10px] font-mono text-accent bg-accent_dim px-2 py-0.5 rounded-full">v0.1.4</span>
         </header>
 
-        <div class="install-block">
-            <span class="cmd">$ pip install protocolbox</span>
-            <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install protocolbox')">copy</button>
+        <div class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
+
+            <!-- Hero -->
+            <section id="install" class="mb-20">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+                    The Standard Library <br /> <span class="text-dim">for Autonomous Agents.</span>
+                </h1>
+                <p class="text-lg text-dim mb-10 leading-relaxed max-w-2xl">
+                    A verified, open-source collection of <span class="text-txt font-medium">8 Python utilities</span>
+                    designed to prevent hallucinations and save tokens. Built for <span
+                        class="text-txt font-medium">Antigravity</span>, <span
+                        class="text-txt font-medium">Cursor</span>, and <span
+                        class="text-txt font-medium">Windsurf</span>.
+                </p>
+
+                <!-- Command Block -->
+                <div class="group relative">
+                    <div
+                        class="absolute -inset-0.5 bg-gradient-to-r from-accent to-purple-600 opacity-20 blur rounded-lg group-hover:opacity-40 transition duration-500">
+                    </div>
+                    <div
+                        class="relative bg-panel border border-border rounded-lg p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                        <div class="font-mono text-sm text-txt overflow-x-auto whitespace-nowrap">
+                            <span class="text-accent">$</span> pip install protocolbox && protocolbox init
+                        </div>
+                        <button
+                            class="bg-code hover:bg-border border border-border text-xs font-mono px-3 py-1.5 rounded transition text-dim hover:text-txt uppercase"
+                            onclick="navigator.clipboard.writeText('pip install protocolbox && protocolbox init')">
+                            Copy Command
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bento Grid -->
+            <section id="quickstart" class="mb-24">
+                <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                    <span class="w-1 h-6 bg-accent rounded-full"></span>
+                    Why ProtocolBox?
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-4 h-auto md:h-80">
+                    <div
+                        class="md:col-span-2 bg-panel border border-border rounded-xl p-8 flex flex-col justify-between hover:border-accent transition group relative overflow-hidden">
+                        <div class="relative z-10">
+                            <div class="font-mono text-xs text-accent mb-2">01_OPTIMIZATION</div>
+                            <h3 class="text-xl font-bold mb-2">90% Token Reduction</h3>
+                            <p class="text-dim text-sm max-w-sm">Stop feeding raw HTML to your agents. Our Scraper
+                                strips ads, scripts, and navigation, converting 5MB websites into 5KB of clean Markdown.
+                            </p>
+                        </div>
+                        <div
+                            class="absolute right-0 bottom-0 opacity-10 group-hover:opacity-20 transition transform group-hover:scale-110">
+                            <svg width="160" height="160" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-panel border border-border rounded-xl p-6 flex flex-col justify-between hover:border-white transition">
+                        <div>
+                            <div class="font-mono text-xs text-dim mb-2">02_SECURITY</div>
+                            <h3 class="text-xl font-bold mb-2">Zero Eval()</h3>
+                            <p class="text-dim text-sm">Safe math via AST parsing prevents code injection attacks.</p>
+                        </div>
+                        <div class="font-mono text-xs text-accent mt-4">[ SECURE ]</div>
+                    </div>
+
+                    <div
+                        class="bg-panel border border-border rounded-xl p-6 flex flex-col justify-between hover:border-white transition">
+                        <div>
+                            <div class="font-mono text-xs text-dim mb-2">03_COMPATIBILITY</div>
+                            <h3 class="text-xl font-bold mb-2">MCP Native</h3>
+                            <p class="text-dim text-sm">Works out of the box with the Model Context Protocol.</p>
+                        </div>
+                        <div class="font-mono text-xs text-accent mt-4">[ STANDARD ]</div>
+                    </div>
+
+                    <div
+                        class="md:col-span-2 bg-panel border border-border rounded-xl p-8 flex items-center justify-between hover:border-accent transition group">
+                        <div>
+                            <div class="font-mono text-xs text-accent mb-2">04_RELIABILITY</div>
+                            <h3 class="text-xl font-bold">283 Tests. 100% Pass.</h3>
+                            <p class="text-dim text-sm mt-1">Every tool is battle-tested with edge cases, unicode,
+                                security, and error handling.</p>
+                        </div>
+                        <div
+                            class="hidden md:block font-mono text-xs bg-code px-3 py-2 rounded border border-border text-green-500">
+                            ✓ 283/283 passed
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Web Tools -->
+            <section id="web" class="mb-20">
+                <div class="border-b border-border pb-4 mb-8">
+                    <h2 class="text-2xl font-bold">Web Tools</h2>
+                    <p class="text-dim text-sm mt-1">Utilities for interacting with the live internet.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="font-mono text-sm text-accent bg-accent_dim px-2 py-1 rounded">scrape</span>
+                            <span class="text-xs text-dim font-mono">(url: str) → str</span>
+                        </div>
+                        <p class="text-sm text-txt mb-4">Fetches a URL, removes scripts/styles/ads, and converts content
+                            to clean Markdown. 90% token reduction on average.</p>
+                        <div
+                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
+                            <span class="text-dim"># Agent Usage</span><br>
+                            result = scrape(<span class="text-green-500">"https://example.com/article"</span>)
+                        </div>
+                    </div>
+
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span
+                                class="font-mono text-sm text-accent bg-accent_dim px-2 py-1 rounded">web_search</span>
+                            <span class="text-xs text-dim font-mono">(query: str, max_results: int = 3) → str</span>
+                        </div>
+                        <p class="text-sm text-txt mb-4">Privacy-focused web search via DuckDuckGo. Returns
+                            Markdown-formatted results with titles, links, and snippets. No API key required.</p>
+                        <div
+                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
+                            <span class="text-dim"># Agent Usage</span><br>
+                            result = web_search(<span class="text-green-500">"latest MCP protocol updates"</span>,
+                            max_results=<span class="text-accent">5</span>)
+                        </div>
+                    </div>
+
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span
+                                class="font-mono text-sm text-accent bg-accent_dim px-2 py-1 rounded">get_transcript</span>
+                            <span class="text-xs text-dim font-mono">(video_url: str) → str</span>
+                        </div>
+                        <p class="text-sm text-txt mb-4">Fetches the English transcript of a YouTube video as clean
+                            text. Supports standard, short (youtu.be), and embed URL formats.</p>
+                        <div
+                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
+                            <span class="text-dim"># Agent Usage</span><br>
+                            result = get_transcript(<span class="text-green-500">"https://youtu.be/dQw4w9WgXcQ"</span>)
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Logic & Math -->
+            <section id="logic" class="mb-20">
+                <div class="border-b border-border pb-4 mb-8">
+                    <h2 class="text-2xl font-bold">Logic & Math</h2>
+                    <p class="text-dim text-sm mt-1">Reliable computation and data structuring without code injection.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span
+                                class="font-mono text-sm text-blue-400 bg-blue-400/10 px-2 py-1 rounded">safe_math</span>
+                            <span class="text-xs text-dim font-mono">(expression: str) → str</span>
+                        </div>
+                        <p class="text-sm text-txt mb-4">Securely evaluates mathematical expressions using AST parsing —
+                            <strong class="text-accent">zero eval()</strong>. Supports arithmetic (+, -, *, /, **, %)
+                            and functions (sqrt, floor, ceil, abs, sin, cos, tan, log).</p>
+                        <div
+                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
+                            <span class="text-dim"># Agent Usage</span><br>
+                            result = safe_math(<span class="text-green-500">"sqrt(144) + 2 ** 3"</span>) <span
+                                class="text-dim"># → "20.0"</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span
+                                class="font-mono text-sm text-blue-400 bg-blue-400/10 px-2 py-1 rounded">heal_json</span>
+                            <span class="text-xs text-dim font-mono">(broken_json: str) → dict</span>
+                        </div>
+                        <p class="text-sm text-txt mb-4">Repairs common JSON syntax errors generated by LLMs — trailing
+                            commas, unquoted keys, single quotes, and truncated output.</p>
+                        <div
+                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
+                            <span class="text-dim"># Agent Usage</span><br>
+                            result = heal_json(<span class="text-green-500">"{'name': 'Alice', 'age': 30,}"</span>)
+                            <span class="text-dim"># → {"name": "Alice", "age": 30}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Utilities -->
+            <section id="utility" class="mb-20">
+                <div class="border-b border-border pb-4 mb-8">
+                    <h2 class="text-2xl font-bold">Utilities</h2>
+                    <p class="text-dim text-sm mt-1">Time, memory, and persistent state for agent workflows.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <span
+                            class="font-mono text-sm text-green-400 bg-green-400/10 px-2 py-1 rounded mb-3 inline-block">get_time</span>
+                        <p class="text-sm text-dim mt-2">Get current ISO 8601 timestamp for any timezone. Supports 500+
+                            timezones via pytz.</p>
+                        <div class="font-mono text-xs text-dim mt-4 bg-code px-3 py-2 rounded border border-border">
+                            (timezone: str) → str
+                        </div>
+                    </div>
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <span
+                            class="font-mono text-sm text-green-400 bg-green-400/10 px-2 py-1 rounded mb-3 inline-block">remember</span>
+                        <p class="text-sm text-dim mt-2">Store key-value pairs in persistent local memory. Data survives
+                            across agent sessions.</p>
+                        <div class="font-mono text-xs text-dim mt-4 bg-code px-3 py-2 rounded border border-border">
+                            (key: str, value: str) → str
+                        </div>
+                    </div>
+                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
+                        <span
+                            class="font-mono text-sm text-green-400 bg-green-400/10 px-2 py-1 rounded mb-3 inline-block">recall</span>
+                        <p class="text-sm text-dim mt-2">Retrieve stored values from persistent memory by key. Perfect
+                            for maintaining agent context.</p>
+                        <div class="font-mono text-xs text-dim mt-4 bg-code px-3 py-2 rounded border border-border">
+                            (key: str) → str
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
 
-        <div class="grid">
-            <div class="card">
-                <div class="tool-name">scrape(url)</div>
-                <div class="tool-desc">Fetch web pages as token-efficient Markdown. Strips ads, scripts, and clutter
-                    automatically.</div>
-            </div>
-            <div class="card">
-                <div class="tool-name">heal_json(str)</div>
-                <div class="tool-desc">Repair malformed LLM outputs. Fixes trailing commas, missing quotes, and
-                    truncated JSON.</div>
-            </div>
-            <div class="card">
-                <div class="tool-name">web_search(query)</div>
-                <div class="tool-desc">Privacy-focused web search via DuckDuckGo. Returns formatted Markdown results
-                    — no API key needed.</div>
-            </div>
-            <div class="card">
-                <div class="tool-name">safe_math(expr)</div>
-                <div class="tool-desc">Securely evaluate math expressions using AST parsing. No eval(), no code
-                    injection risk.</div>
-            </div>
-            <div class="card">
-                <div class="tool-name">get_time(tz)</div>
-                <div class="tool-desc">Get current real-world time in any timezone. Returns ISO 8601 format for
-                    precise scheduling.</div>
-            </div>
-            <div class="card">
-                <div class="tool-name">get_transcript(url)</div>
-                <div class="tool-desc">Fetch English transcripts from YouTube videos as clean text for summarization
-                    and analysis.</div>
-            </div>
-            <div class="card">
-                <div class="tool-name">remember(key, val)</div>
-                <div class="tool-desc">Store key-value pairs in persistent local memory. Data survives across agent
-                    sessions.</div>
-            </div>
-            <div class="card">
-                <div class="tool-name">recall(key)</div>
-                <div class="tool-desc">Retrieve stored values from persistent memory by key. Perfect for maintaining
-                    agent context.</div>
-            </div>
-        </div>
-
-        <footer>
-            <div>© 2026 ProtocolBox</div>
-            <div class="footer-links">
-                <a href="https://github.com/ianuragbhatt/protocolbox/blob/master/LICENSE">License</a>
-                <a href="https://x.com/anuragbhatt">@anuragbhatt</a>
+        <!-- Footer -->
+        <footer class="border-t border-border py-12 px-6">
+            <div
+                class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-dim">
+                <div>
+                    &copy; 2026 ProtocolBox. MIT License.
+                </div>
+                <div class="flex gap-6 font-medium">
+                    <a href="https://github.com/ianuragbhatt/protocolbox" class="hover:text-txt transition">GitHub</a>
+                    <a href="https://x.com/anuragbhatt" class="hover:text-txt transition">Twitter</a>
+                </div>
             </div>
         </footer>
-    </div>
+
+    </main>
 
     <script>
         // Fetch GitHub stars
         fetch('https://api.github.com/repos/ianuragbhatt/protocolbox')
             .then(res => res.json())
             .then(data => {
-                const count = data.stargazers_count;
-                if (count !== undefined) {
-                    document.getElementById('stars').textContent = count;
+                const el = document.getElementById('stars');
+                if (el && data.stargazers_count !== undefined) {
+                    el.textContent = data.stargazers_count;
                 }
             })
-            .catch(() => document.getElementById('stars').textContent = '-');
+            .catch(() => { });
     </script>
+
 </body>
 
 </html>
