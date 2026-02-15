@@ -162,6 +162,25 @@
             border-color: var(--text-3);
         }
 
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-2);
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            color: var(--coral);
+            border-color: var(--coral);
+            background: var(--coral-bg);
+        }
+
         .mobile-nav {
             display: none;
         }
@@ -673,48 +692,10 @@
                 max-width: 340px;
             }
         }
-
-        /* ── Fork Ribbon ──────────────────────────────────── */
-        .github-fork-ribbon {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            z-index: 999;
-            pointer-events: none;
-        }
-
-        .github-fork-ribbon a {
-            display: inline-block;
-            width: 200px;
-            padding: 6px 0;
-            background: var(--text);
-            color: var(--bg);
-            text-align: center;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transform: rotate(45deg) translate(40px, -25px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            pointer-events: auto;
-            transition: background 0.2s;
-        }
-
-        .github-fork-ribbon a:hover {
-            background: var(--text-2);
-            color: var(--bg);
-        }
     </style>
 </head>
 
 <body>
-    <div class="github-fork-ribbon">
-        <a href="https://github.com/ianuragbhatt/protocolbox" target="_blank">Fork me on GitHub</a>
-    </div>
 
     <!-- ── Navigation ──────────────────────────────────── -->
     <nav>
@@ -731,6 +712,11 @@
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#tools">Tools</a></li>
                 <li><a href="/llms.txt">llms.txt</a></li>
+                <li>
+                    <a href="https://github.com/ianuragbhatt/protocolbox" target="_blank" class="nav-cta">
+                        Contribute
+                    </a>
+                </li>
                 <li>
                     <a href="https://github.com/ianuragbhatt/protocolbox" class="nav-github">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
