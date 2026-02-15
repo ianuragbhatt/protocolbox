@@ -38,10 +38,7 @@ def get_time(timezone: str = "UTC") -> str:
         tz = pytz.timezone(timezone)
     except pytz.exceptions.UnknownTimeZoneError:
         tz_list = ", ".join(_COMMON_TIMEZONES)
-        return (
-            f"Error: Unknown timezone '{timezone}'. "
-            f"Common timezones: {tz_list}."
-        )
+        return f"Error: Unknown timezone '{timezone}'. Common timezones: {tz_list}."
 
     now = datetime.now(tz)
     return now.strftime("%Y-%m-%d %H:%M:%S %Z")

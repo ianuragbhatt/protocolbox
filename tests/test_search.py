@@ -20,13 +20,15 @@ class TestWebSearchBasic:
     @patch("protocolbox.tools.search.DDGS")
     def test_returns_markdown_with_results(self, mock_ddgs_cls: MagicMock) -> None:
         """A successful search should return formatted Markdown."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {
-                "title": "Example Page",
-                "href": "https://example.com",
-                "body": "An example result.",
-            }
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [
+                {
+                    "title": "Example Page",
+                    "href": "https://example.com",
+                    "body": "An example result.",
+                }
+            ]
+        )
         result = web_search("test query")
         assert "## Search Results for: test query" in result
         assert "Example Page" in result
@@ -36,11 +38,13 @@ class TestWebSearchBasic:
     @patch("protocolbox.tools.search.DDGS")
     def test_returns_multiple_results(self, mock_ddgs_cls: MagicMock) -> None:
         """Multiple results should be numbered correctly."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {"title": "First", "href": "https://a.com", "body": "Desc A"},
-            {"title": "Second", "href": "https://b.com", "body": "Desc B"},
-            {"title": "Third", "href": "https://c.com", "body": "Desc C"},
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [
+                {"title": "First", "href": "https://a.com", "body": "Desc A"},
+                {"title": "Second", "href": "https://b.com", "body": "Desc B"},
+                {"title": "Third", "href": "https://c.com", "body": "Desc C"},
+            ]
+        )
         result = web_search("multi query")
         assert "### 1. First" in result
         assert "### 2. Second" in result
@@ -65,9 +69,9 @@ class TestWebSearchBasic:
     @patch("protocolbox.tools.search.DDGS")
     def test_return_type_is_string(self, mock_ddgs_cls: MagicMock) -> None:
         """Return type should always be str."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {"title": "T", "href": "h", "body": "b"}
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [{"title": "T", "href": "h", "body": "b"}]
+        )
         assert isinstance(web_search("test"), str)
 
 
@@ -94,27 +98,27 @@ class TestWebSearchMissingFields:
     @patch("protocolbox.tools.search.DDGS")
     def test_missing_title_uses_fallback(self, mock_ddgs_cls: MagicMock) -> None:
         """A result without 'title' should use fallback text."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {"href": "https://x.com", "body": "Some snippet"}
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [{"href": "https://x.com", "body": "Some snippet"}]
+        )
         result = web_search("query")
         assert "No title" in result
 
     @patch("protocolbox.tools.search.DDGS")
     def test_missing_body_uses_fallback(self, mock_ddgs_cls: MagicMock) -> None:
         """A result without 'body' should use fallback text."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {"title": "Title", "href": "https://x.com"}
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [{"title": "Title", "href": "https://x.com"}]
+        )
         result = web_search("query")
         assert "No description available." in result
 
     @patch("protocolbox.tools.search.DDGS")
     def test_missing_href_uses_empty(self, mock_ddgs_cls: MagicMock) -> None:
         """A result without 'href' should not crash."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {"title": "Title", "body": "Description"}
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [{"title": "Title", "body": "Description"}]
+        )
         result = web_search("query")
         assert "Title" in result
         assert "**Link:**" in result
@@ -171,9 +175,7 @@ class TestWebSearchErrors:
         assert "RuntimeError" in result
 
     @patch("protocolbox.tools.search.DDGS")
-    def test_error_message_never_contains_html(
-        self, mock_ddgs_cls: MagicMock
-    ) -> None:
+    def test_error_message_never_contains_html(self, mock_ddgs_cls: MagicMock) -> None:
         """Error messages should be plain text."""
         mock_ddgs = MagicMock()
         mock_ddgs.__enter__ = MagicMock(return_value=mock_ddgs)
@@ -190,9 +192,9 @@ class TestWebSearchEdgeCases:
     @patch("protocolbox.tools.search.DDGS")
     def test_unicode_query(self, mock_ddgs_cls: MagicMock) -> None:
         """Unicode characters in query should be handled."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {"title": "結果", "href": "https://x.com", "body": "日本語の結果"}
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [{"title": "結果", "href": "https://x.com", "body": "日本語の結果"}]
+        )
         result = web_search("日本語テスト")
         assert "日本語テスト" in result
         assert "結果" in result
@@ -222,9 +224,9 @@ class TestWebSearchEdgeCases:
     @patch("protocolbox.tools.search.DDGS")
     def test_max_results_one(self, mock_ddgs_cls: MagicMock) -> None:
         """max_results=1 should work correctly."""
-        mock_ddgs_cls.return_value = _mock_ddgs_results([
-            {"title": "Only", "href": "https://x.com", "body": "One result"}
-        ])
+        mock_ddgs_cls.return_value = _mock_ddgs_results(
+            [{"title": "Only", "href": "https://x.com", "body": "One result"}]
+        )
         result = web_search("query", max_results=1)
         assert "### 1. Only" in result
         assert "### 2." not in result

@@ -124,11 +124,13 @@ class TestGetTranscriptBasic:
     def test_returns_joined_text(self, mock_api_cls: MagicMock) -> None:
         """Transcript segments should be joined into a single string."""
         mock_api = mock_api_cls.return_value
-        mock_api.fetch.return_value = _make_mock_transcript([
-            {"text": "Hello world."},
-            {"text": "This is a test."},
-            {"text": "Thank you."},
-        ])
+        mock_api.fetch.return_value = _make_mock_transcript(
+            [
+                {"text": "Hello world."},
+                {"text": "This is a test."},
+                {"text": "Thank you."},
+            ]
+        )
         result = get_transcript("https://youtu.be/dQw4w9WgXcQ")
         assert "Hello world." in result
         assert "This is a test." in result
@@ -138,10 +140,12 @@ class TestGetTranscriptBasic:
     def test_segments_separated_by_spaces(self, mock_api_cls: MagicMock) -> None:
         """Segments should be joined with spaces."""
         mock_api = mock_api_cls.return_value
-        mock_api.fetch.return_value = _make_mock_transcript([
-            {"text": "Word1"},
-            {"text": "Word2"},
-        ])
+        mock_api.fetch.return_value = _make_mock_transcript(
+            [
+                {"text": "Word1"},
+                {"text": "Word2"},
+            ]
+        )
         result = get_transcript("https://youtu.be/dQw4w9WgXcQ")
         assert "Word1 Word2" in result
 
@@ -149,9 +153,7 @@ class TestGetTranscriptBasic:
     def test_return_type_is_string(self, mock_api_cls: MagicMock) -> None:
         mock_api = mock_api_cls.return_value
         mock_api.fetch.return_value = _make_mock_transcript([{"text": "Test"}])
-        assert isinstance(
-            get_transcript("https://youtu.be/dQw4w9WgXcQ"), str
-        )
+        assert isinstance(get_transcript("https://youtu.be/dQw4w9WgXcQ"), str)
 
     @patch("protocolbox.tools.youtube.YouTubeTranscriptApi")
     def test_requests_english_language(self, mock_api_cls: MagicMock) -> None:
@@ -162,14 +164,10 @@ class TestGetTranscriptBasic:
         mock_api.fetch.assert_called_once_with("dQw4w9WgXcQ", languages=["en"])
 
     @patch("protocolbox.tools.youtube.YouTubeTranscriptApi")
-    def test_strips_leading_trailing_whitespace(
-        self, mock_api_cls: MagicMock
-    ) -> None:
+    def test_strips_leading_trailing_whitespace(self, mock_api_cls: MagicMock) -> None:
         """Output should be stripped."""
         mock_api = mock_api_cls.return_value
-        mock_api.fetch.return_value = _make_mock_transcript([
-            {"text": "  Hello  "}
-        ])
+        mock_api.fetch.return_value = _make_mock_transcript([{"text": "  Hello  "}])
         result = get_transcript("https://youtu.be/dQw4w9WgXcQ")
         assert result == "Hello"
 
@@ -221,9 +219,7 @@ class TestGetTranscriptErrors:
     def test_error_return_type_is_string(self, mock_api_cls: MagicMock) -> None:
         mock_api = mock_api_cls.return_value
         mock_api.fetch.side_effect = Exception("fail")
-        assert isinstance(
-            get_transcript("https://youtu.be/dQw4w9WgXcQ"), str
-        )
+        assert isinstance(get_transcript("https://youtu.be/dQw4w9WgXcQ"), str)
 
 
 class TestGetTranscriptEdgeCases:
@@ -241,9 +237,7 @@ class TestGetTranscriptEdgeCases:
     def test_single_segment(self, mock_api_cls: MagicMock) -> None:
         """A single segment should work correctly."""
         mock_api = mock_api_cls.return_value
-        mock_api.fetch.return_value = _make_mock_transcript([
-            {"text": "Only segment"}
-        ])
+        mock_api.fetch.return_value = _make_mock_transcript([{"text": "Only segment"}])
         result = get_transcript("https://youtu.be/dQw4w9WgXcQ")
         assert result == "Only segment"
 
@@ -251,10 +245,12 @@ class TestGetTranscriptEdgeCases:
     def test_unicode_transcript(self, mock_api_cls: MagicMock) -> None:
         """Unicode characters should be preserved."""
         mock_api = mock_api_cls.return_value
-        mock_api.fetch.return_value = _make_mock_transcript([
-            {"text": "日本語テスト"},
-            {"text": "🚀 emoji"},
-        ])
+        mock_api.fetch.return_value = _make_mock_transcript(
+            [
+                {"text": "日本語テスト"},
+                {"text": "🚀 emoji"},
+            ]
+        )
         result = get_transcript("https://youtu.be/dQw4w9WgXcQ")
         assert "日本語テスト" in result
         assert "🚀" in result
@@ -271,15 +267,15 @@ class TestGetTranscriptEdgeCases:
         assert isinstance(result, str)
 
     @patch("protocolbox.tools.youtube.YouTubeTranscriptApi")
-    def test_segments_with_special_characters(
-        self, mock_api_cls: MagicMock
-    ) -> None:
+    def test_segments_with_special_characters(self, mock_api_cls: MagicMock) -> None:
         """Special characters (HTML entities, etc.) should pass through."""
         mock_api = mock_api_cls.return_value
-        mock_api.fetch.return_value = _make_mock_transcript([
-            {"text": "Tom & Jerry"},
-            {"text": "Price: $5 < $10"},
-        ])
+        mock_api.fetch.return_value = _make_mock_transcript(
+            [
+                {"text": "Tom & Jerry"},
+                {"text": "Price: $5 < $10"},
+            ]
+        )
         result = get_transcript("https://youtu.be/dQw4w9WgXcQ")
         assert "Tom & Jerry" in result
         assert "$5" in result

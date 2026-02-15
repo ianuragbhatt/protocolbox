@@ -152,8 +152,8 @@ class TestMemoryEdgeCases:
         assert recall("key/with.special!chars@#$") == "special"
 
     def test_special_chars_in_value(self, tmp_memory: Path) -> None:
-        remember("special_val", 'quotes "and" \'single\' & <tags>')
-        assert recall("special_val") == 'quotes "and" \'single\' & <tags>'
+        remember("special_val", "quotes \"and\" 'single' & <tags>")
+        assert recall("special_val") == "quotes \"and\" 'single' & <tags>"
 
     def test_multiline_value(self, tmp_memory: Path) -> None:
         """Multiline strings should be preserved."""
