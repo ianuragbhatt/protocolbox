@@ -673,10 +673,48 @@
                 max-width: 340px;
             }
         }
+
+        /* ── Fork Ribbon ──────────────────────────────────── */
+        .github-fork-ribbon {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .github-fork-ribbon a {
+            display: inline-block;
+            width: 200px;
+            padding: 6px 0;
+            background: var(--text);
+            color: var(--bg);
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transform: rotate(45deg) translate(40px, -25px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            pointer-events: auto;
+            transition: background 0.2s;
+        }
+
+        .github-fork-ribbon a:hover {
+            background: var(--text-2);
+            color: var(--bg);
+        }
     </style>
 </head>
 
 <body>
+    <div class="github-fork-ribbon">
+        <a href="https://github.com/ianuragbhatt/protocolbox" target="_blank">Fork me on GitHub</a>
+    </div>
 
     <!-- ── Navigation ──────────────────────────────────── -->
     <nav>
