@@ -1,406 +1,917 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProtocolBox | Standard Library for Agents</title>
-    <meta name="description" content="Verified infrastructure for AI Agents.">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>ProtocolBox — The Standard Library for AI Agents</title>
+    <meta name="description"
+        content="ProtocolBox is an open-source collection of 8 verified MCP tools for AI Agents. Scrape the web, search, do math, and more — all without hallucinations.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        mono: ['Space Mono', 'monospace'],
-                    },
-                    colors: {
-                        base: '#050505',
-                        panel: '#0F0F0F',
-                        border: '#262626',
-                        accent: '#FF6B6B',
-                        accent_dim: 'rgba(255, 107, 107, 0.1)',
-                        txt: '#EDEDED',
-                        dim: '#888888',
-                        code: '#1A1A1A'
-                    }
-                }
+    <style>
+        /* ── Reset & Base ───────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #09090b;
+            --surface: #18181b;
+            --surface2: #1e1e22;
+            --border: #27272a;
+            --text: #fafafa;
+            --text-2: #a1a1aa;
+            --text-3: #71717a;
+            --coral: #f97066;
+            --coral-bg: rgba(249, 112, 102, 0.08);
+            --blue: #60a5fa;
+            --blue-bg: rgba(96, 165, 250, 0.08);
+            --green: #4ade80;
+            --green-bg: rgba(74, 222, 128, 0.08);
+            --purple: #a78bfa;
+            --radius: 12px;
+            --max-w: 1080px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ── Nav ─────────────────────────────────────────── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand .dot {
+            width: 24px;
+            height: 24px;
+            background: var(--text);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-brand .dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--bg);
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            color: var(--text-2);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-version {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--coral);
+            background: var(--coral-bg);
+            padding: 3px 10px;
+            border-radius: 99px;
+            border: 1px solid rgba(249, 112, 102, 0.2);
+        }
+
+        .nav-github {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-2);
+            transition: all 0.2s;
+        }
+
+        .nav-github:hover {
+            color: var(--text);
+            border-color: var(--text-3);
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        /* ── Hero ─────────────────────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 100px 24px 80px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(249, 112, 102, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border: 1px solid var(--border);
+            border-radius: 99px;
+            font-size: 0.8rem;
+            color: var(--text-2);
+            margin-bottom: 32px;
+            background: var(--surface);
+        }
+
+        .hero-badge .pulse {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
             }
         }
-    </script>
-    <style>
-        body {
-            background-color: #050505;
-            color: #EDEDED;
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            margin-bottom: 20px;
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
+        .hero h1 span {
+            color: var(--text-3);
         }
 
-        ::-webkit-scrollbar-track {
-            background: #050505;
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-2);
+            max-width: 560px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #262626;
-            border-radius: 3px;
+        .hero-sub strong {
+            color: var(--text);
+            font-weight: 600;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #FF6B6B;
+        /* ── Install bar ──────────────────────────────────── */
+        .install-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-bottom: 48px;
+            transition: border-color 0.3s;
         }
 
-        .hero-glow {
-            background: radial-gradient(circle at 50% 0%, rgba(255, 107, 107, 0.08) 0%, transparent 50%);
+        .install-bar:hover {
+            border-color: var(--text-3);
+        }
+
+        .install-bar code {
+            font-size: 0.9rem;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .install-bar code .prompt {
+            color: var(--coral);
+        }
+
+        .install-bar button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-3);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+        }
+
+        .install-bar button:hover {
+            color: var(--text);
+            border-color: var(--text-3);
+        }
+
+        /* ── Stats ─────────────────────────────────────── */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            padding-bottom: 16px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 2px;
+        }
+
+        /* ── Section headers ─────────────────────────────── */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 1.05rem;
+            color: var(--text-2);
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* ── How it works ─────────────────────────────────── */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 0;
+        }
+
+        .step {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            text-align: center;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+
+        .step:hover {
+            border-color: var(--text-3);
+        }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--coral-bg);
+            color: var(--coral);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            border: 1px solid rgba(249, 112, 102, 0.2);
+        }
+
+        .step h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            font-size: 0.875rem;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        .step code {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: var(--text-2);
+            border: 1px solid var(--border);
+        }
+
+        /* ── Divider ──────────────────────────────────────── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0;
+        }
+
+        /* ── Tools ────────────────────────────────────────── */
+        .tool-category {
+            margin-bottom: 56px;
+        }
+
+        .tool-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .cat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .cat-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .cat-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .cat-header .cat-count {
+            font-size: 0.75rem;
+            color: var(--text-3);
+            font-family: 'JetBrains Mono', monospace;
+            margin-left: auto;
+        }
+
+        .tool-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .tool-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .tool-grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .tool-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: all 0.25s;
+        }
+
+        .tool-card:hover {
+            border-color: var(--text-3);
+            transform: translateY(-2px);
+        }
+
+        .tool-name {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .tool-sig {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-3);
+            margin-bottom: 12px;
+        }
+
+        .tool-desc {
+            font-size: 0.875rem;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* Category colors */
+        .cat-coral .cat-dot {
+            background: var(--coral);
+        }
+
+        .cat-coral .tool-name {
+            background: var(--coral-bg);
+            color: var(--coral);
+        }
+
+        .cat-blue .cat-dot {
+            background: var(--blue);
+        }
+
+        .cat-blue .tool-name {
+            background: var(--blue-bg);
+            color: var(--blue);
+        }
+
+        .cat-green .cat-dot {
+            background: var(--green);
+        }
+
+        .cat-green .tool-name {
+            background: var(--green-bg);
+            color: var(--green);
+        }
+
+        /* ── CTA banner ───────────────────────────────────── */
+        .cta {
+            text-align: center;
+            padding: 80px 24px;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: var(--text-2);
+            margin-bottom: 32px;
+            font-size: 1.05rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--text);
+            color: var(--bg);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: transparent;
+            color: var(--text-2);
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            color: var(--text);
+            border-color: var(--text-3);
+        }
+
+        /* ── Footer ───────────────────────────────────────── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+        }
+
+        .footer-inner {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            font-size: 0.85rem;
+            color: var(--text-3);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--text-3);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text);
+        }
+
+        /* ── Responsive ────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            .hero {
+                padding: 64px 24px 48px;
+            }
+
+            .stats {
+                gap: 24px;
+            }
+
+            .stat-value {
+                font-size: 1.2rem;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-grid-2,
+            .tool-grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 48px 0;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .install-bar {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                max-width: 340px;
+            }
         }
     </style>
 </head>
 
-<body class="font-sans antialiased flex min-h-screen">
+<body>
 
-    <!-- Left Sidebar -->
-    <aside class="fixed inset-y-0 left-0 w-72 bg-base border-r border-border hidden lg:flex flex-col z-50">
-        <div class="h-16 flex items-center px-6 border-b border-border">
-            <div class="w-6 h-6 bg-txt rounded-full flex items-center justify-center mr-3">
-                <div class="w-2 h-2 bg-base rounded-full"></div>
+    <!-- ── Navigation ──────────────────────────────────── -->
+    <nav>
+        <div class="nav-inner">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <a href="/" class="nav-brand">
+                    <div class="dot"></div>
+                    ProtocolBox
+                </a>
+                <span class="nav-version">v0.1.4</span>
             </div>
-            <span class="font-bold text-lg tracking-tight">ProtocolBox</span>
-            <span class="ml-auto text-[10px] font-mono text-accent bg-accent_dim px-2 py-0.5 rounded-full">v0.1.4</span>
+
+            <ul class="nav-links">
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="/llms.txt">llms.txt</a></li>
+                <li>
+                    <a href="https://github.com/ianuragbhatt/protocolbox" class="nav-github">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                        </svg>
+                        GitHub
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ── Hero ────────────────────────────────────────── -->
+    <section class="hero">
+        <div class="hero-badge">
+            <div class="pulse"></div>
+            Open Source &middot; MCP Compliant &middot; Python 3.11+
         </div>
 
-        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-8">
-            <div>
-                <div class="text-xs font-mono text-dim uppercase tracking-widest mb-4 px-2">Getting Started</div>
-                <ul class="space-y-1">
-                    <li><a href="#install"
-                            class="block px-2 py-2 text-sm text-txt hover:bg-panel rounded transition font-medium">Installation</a>
-                    </li>
-                    <li><a href="#quickstart"
-                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">Quickstart</a>
-                    </li>
-                    <li><a href="/llms.txt"
-                            class="block px-2 py-2 text-sm text-accent hover:bg-accent_dim rounded transition font-medium">For
-                            Agents (llms.txt)</a></li>
-                </ul>
+        <h1>
+            Give your AI agent<br><span>reliable tools.</span>
+        </h1>
+
+        <p class="hero-sub">
+            ProtocolBox is an open-source Python library of <strong>8 verified MCP tools</strong> that let AI agents
+            scrape the web, search, do math, fetch transcripts, and remember context —
+            without hallucinating or wasting tokens.
+        </p>
+
+        <div class="install-bar">
+            <code><span class="prompt">$</span> pip install protocolbox</code>
+            <button
+                onclick="navigator.clipboard.writeText('pip install protocolbox');this.textContent='copied!';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Tools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">283</div>
+                <div class="stat-label">Tests</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Pass Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">0</div>
+                <div class="stat-label">API Keys</div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── How It Works ────────────────────────────────── -->
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>Up and running in 60 seconds</h2>
+                <p>Install the package, initialize the config for your agent, and start the MCP server.</p>
             </div>
 
-            <div>
-                <div class="text-xs font-mono text-dim uppercase tracking-widest mb-4 px-2">Core Modules</div>
-                <ul class="space-y-1">
-                    <li><a href="#web"
-                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition flex justify-between">
-                            <span>Web Tools</span> <code
-                                class="text-[10px] text-dim border border-border px-1 rounded">3 tools</code>
-                        </a></li>
-                    <li><a href="#logic"
-                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition flex justify-between">
-                            <span>Logic & Math</span> <code
-                                class="text-[10px] text-dim border border-border px-1 rounded">2 tools</code>
-                        </a></li>
-                    <li><a href="#utility"
-                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition flex justify-between">
-                            <span>Utilities</span> <code
-                                class="text-[10px] text-dim border border-border px-1 rounded">3 tools</code>
-                        </a></li>
-                </ul>
-            </div>
-
-            <div>
-                <div class="text-xs font-mono text-dim uppercase tracking-widest mb-4 px-2">Resources</div>
-                <ul class="space-y-1">
-                    <li><a href="https://github.com/ianuragbhatt/protocolbox"
-                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">GitHub
-                            Repository</a></li>
-                    <li><a href="https://github.com/ianuragbhatt/protocolbox/blob/master/CONTRIBUTING.md"
-                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">Contributing</a>
-                    </li>
-                    <li><a href="https://github.com/ianuragbhatt/protocolbox/blob/master/LICENSE"
-                            class="block px-2 py-2 text-sm text-dim hover:text-txt hover:bg-panel rounded transition">License
-                            (MIT)</a></li>
-                </ul>
-            </div>
-        </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="lg:pl-72 w-full min-h-screen bg-base relative">
-        <div class="hero-glow absolute inset-0 pointer-events-none"></div>
-
-        <!-- Mobile Header -->
-        <header
-            class="lg:hidden h-16 border-b border-border flex items-center px-6 sticky top-0 bg-base/80 backdrop-blur z-40">
-            <span class="font-bold text-lg">ProtocolBox</span>
-            <span class="ml-2 text-[10px] font-mono text-accent bg-accent_dim px-2 py-0.5 rounded-full">v0.1.4</span>
-        </header>
-
-        <div class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
-
-            <!-- Hero -->
-            <section id="install" class="mb-20">
-                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-                    The Standard Library <br /> <span class="text-dim">for Autonomous Agents.</span>
-                </h1>
-                <p class="text-lg text-dim mb-10 leading-relaxed max-w-2xl">
-                    A verified, open-source collection of <span class="text-txt font-medium">8 Python utilities</span>
-                    designed to prevent hallucinations and save tokens. Built for <span
-                        class="text-txt font-medium">Antigravity</span>, <span
-                        class="text-txt font-medium">Cursor</span>, and <span
-                        class="text-txt font-medium">Windsurf</span>.
-                </p>
-
-                <!-- Command Block -->
-                <div class="group relative">
-                    <div
-                        class="absolute -inset-0.5 bg-gradient-to-r from-accent to-purple-600 opacity-20 blur rounded-lg group-hover:opacity-40 transition duration-500">
-                    </div>
-                    <div
-                        class="relative bg-panel border border-border rounded-lg p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                        <div class="font-mono text-sm text-txt overflow-x-auto whitespace-nowrap">
-                            <span class="text-accent">$</span> pip install protocolbox && protocolbox init
-                        </div>
-                        <button
-                            class="bg-code hover:bg-border border border-border text-xs font-mono px-3 py-1.5 rounded transition text-dim hover:text-txt uppercase"
-                            onclick="navigator.clipboard.writeText('pip install protocolbox && protocolbox init')">
-                            Copy Command
-                        </button>
-                    </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h3>Install</h3>
+                    <p>One command installs all 8 tools. No external API keys needed.</p>
+                    <code>pip install protocolbox</code>
                 </div>
-            </section>
-
-            <!-- Bento Grid -->
-            <section id="quickstart" class="mb-24">
-                <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
-                    <span class="w-1 h-6 bg-accent rounded-full"></span>
-                    Why ProtocolBox?
-                </h2>
-
-                <div class="grid md:grid-cols-3 gap-4 h-auto md:h-80">
-                    <div
-                        class="md:col-span-2 bg-panel border border-border rounded-xl p-8 flex flex-col justify-between hover:border-accent transition group relative overflow-hidden">
-                        <div class="relative z-10">
-                            <div class="font-mono text-xs text-accent mb-2">01_OPTIMIZATION</div>
-                            <h3 class="text-xl font-bold mb-2">90% Token Reduction</h3>
-                            <p class="text-dim text-sm max-w-sm">Stop feeding raw HTML to your agents. Our Scraper
-                                strips ads, scripts, and navigation, converting 5MB websites into 5KB of clean Markdown.
-                            </p>
-                        </div>
-                        <div
-                            class="absolute right-0 bottom-0 opacity-10 group-hover:opacity-20 transition transform group-hover:scale-110">
-                            <svg width="160" height="160" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-panel border border-border rounded-xl p-6 flex flex-col justify-between hover:border-white transition">
-                        <div>
-                            <div class="font-mono text-xs text-dim mb-2">02_SECURITY</div>
-                            <h3 class="text-xl font-bold mb-2">Zero Eval()</h3>
-                            <p class="text-dim text-sm">Safe math via AST parsing prevents code injection attacks.</p>
-                        </div>
-                        <div class="font-mono text-xs text-accent mt-4">[ SECURE ]</div>
-                    </div>
-
-                    <div
-                        class="bg-panel border border-border rounded-xl p-6 flex flex-col justify-between hover:border-white transition">
-                        <div>
-                            <div class="font-mono text-xs text-dim mb-2">03_COMPATIBILITY</div>
-                            <h3 class="text-xl font-bold mb-2">MCP Native</h3>
-                            <p class="text-dim text-sm">Works out of the box with the Model Context Protocol.</p>
-                        </div>
-                        <div class="font-mono text-xs text-accent mt-4">[ STANDARD ]</div>
-                    </div>
-
-                    <div
-                        class="md:col-span-2 bg-panel border border-border rounded-xl p-8 flex items-center justify-between hover:border-accent transition group">
-                        <div>
-                            <div class="font-mono text-xs text-accent mb-2">04_RELIABILITY</div>
-                            <h3 class="text-xl font-bold">283 Tests. 100% Pass.</h3>
-                            <p class="text-dim text-sm mt-1">Every tool is battle-tested with edge cases, unicode,
-                                security, and error handling.</p>
-                        </div>
-                        <div
-                            class="hidden md:block font-mono text-xs bg-code px-3 py-2 rounded border border-border text-green-500">
-                            ✓ 283/283 passed
-                        </div>
-                    </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h3>Initialize</h3>
+                    <p>Generate the MCP config file for your AI agent (Claude, Cursor, etc.).</p>
+                    <code>protocolbox init</code>
                 </div>
-            </section>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h3>Start</h3>
+                    <p>Launch the MCP server. Your agent can now call any tool instantly.</p>
+                    <code>protocolbox start</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── Tools Reference ─────────────────────────────── -->
+    <section class="section" id="tools">
+        <div class="container">
+            <div class="section-header">
+                <h2>Every tool your agent needs</h2>
+                <p>Each tool is verified, edge-case tested, and designed to return clean, token-efficient output.</p>
+            </div>
 
             <!-- Web Tools -->
-            <section id="web" class="mb-20">
-                <div class="border-b border-border pb-4 mb-8">
-                    <h2 class="text-2xl font-bold">Web Tools</h2>
-                    <p class="text-dim text-sm mt-1">Utilities for interacting with the live internet.</p>
+            <div class="tool-category cat-coral">
+                <div class="cat-header">
+                    <div class="cat-dot"></div>
+                    <h3>Web Tools</h3>
+                    <span class="cat-count">3 tools</span>
                 </div>
-
-                <div class="space-y-6">
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <div class="flex items-center gap-3 mb-3">
-                            <span class="font-mono text-sm text-accent bg-accent_dim px-2 py-1 rounded">scrape</span>
-                            <span class="text-xs text-dim font-mono">(url: str) → str</span>
-                        </div>
-                        <p class="text-sm text-txt mb-4">Fetches a URL, removes scripts/styles/ads, and converts content
-                            to clean Markdown. 90% token reduction on average.</p>
-                        <div
-                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
-                            <span class="text-dim"># Agent Usage</span><br>
-                            result = scrape(<span class="text-green-500">"https://example.com/article"</span>)
-                        </div>
+                <div class="tool-grid tool-grid-3">
+                    <div class="tool-card">
+                        <div class="tool-name">scrape</div>
+                        <div class="tool-sig">(url: str) → str</div>
+                        <div class="tool-desc">Fetches a webpage and converts it to clean Markdown. Strips ads, scripts,
+                            navigation, and clutter — 90% token reduction.</div>
                     </div>
-
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <div class="flex items-center gap-3 mb-3">
-                            <span
-                                class="font-mono text-sm text-accent bg-accent_dim px-2 py-1 rounded">web_search</span>
-                            <span class="text-xs text-dim font-mono">(query: str, max_results: int = 3) → str</span>
-                        </div>
-                        <p class="text-sm text-txt mb-4">Privacy-focused web search via DuckDuckGo. Returns
-                            Markdown-formatted results with titles, links, and snippets. No API key required.</p>
-                        <div
-                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
-                            <span class="text-dim"># Agent Usage</span><br>
-                            result = web_search(<span class="text-green-500">"latest MCP protocol updates"</span>,
-                            max_results=<span class="text-accent">5</span>)
-                        </div>
+                    <div class="tool-card">
+                        <div class="tool-name">web_search</div>
+                        <div class="tool-sig">(query: str, max_results: int) → str</div>
+                        <div class="tool-desc">Privacy-focused search via DuckDuckGo. Returns formatted Markdown with
+                            titles, links, and snippets. No API key.</div>
                     </div>
-
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <div class="flex items-center gap-3 mb-3">
-                            <span
-                                class="font-mono text-sm text-accent bg-accent_dim px-2 py-1 rounded">get_transcript</span>
-                            <span class="text-xs text-dim font-mono">(video_url: str) → str</span>
-                        </div>
-                        <p class="text-sm text-txt mb-4">Fetches the English transcript of a YouTube video as clean
-                            text. Supports standard, short (youtu.be), and embed URL formats.</p>
-                        <div
-                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
-                            <span class="text-dim"># Agent Usage</span><br>
-                            result = get_transcript(<span class="text-green-500">"https://youtu.be/dQw4w9WgXcQ"</span>)
-                        </div>
+                    <div class="tool-card">
+                        <div class="tool-name">get_transcript</div>
+                        <div class="tool-sig">(video_url: str) → str</div>
+                        <div class="tool-desc">Fetches the English transcript of any YouTube video as clean text.
+                            Supports standard, short, and embed URLs.</div>
                     </div>
-                </div>
-            </section>
-
-            <!-- Logic & Math -->
-            <section id="logic" class="mb-20">
-                <div class="border-b border-border pb-4 mb-8">
-                    <h2 class="text-2xl font-bold">Logic & Math</h2>
-                    <p class="text-dim text-sm mt-1">Reliable computation and data structuring without code injection.
-                    </p>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <div class="flex items-center gap-3 mb-3">
-                            <span
-                                class="font-mono text-sm text-blue-400 bg-blue-400/10 px-2 py-1 rounded">safe_math</span>
-                            <span class="text-xs text-dim font-mono">(expression: str) → str</span>
-                        </div>
-                        <p class="text-sm text-txt mb-4">Securely evaluates mathematical expressions using AST parsing —
-                            <strong class="text-accent">zero eval()</strong>. Supports arithmetic (+, -, *, /, **, %)
-                            and functions (sqrt, floor, ceil, abs, sin, cos, tan, log).</p>
-                        <div
-                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
-                            <span class="text-dim"># Agent Usage</span><br>
-                            result = safe_math(<span class="text-green-500">"sqrt(144) + 2 ** 3"</span>) <span
-                                class="text-dim"># → "20.0"</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <div class="flex items-center gap-3 mb-3">
-                            <span
-                                class="font-mono text-sm text-blue-400 bg-blue-400/10 px-2 py-1 rounded">heal_json</span>
-                            <span class="text-xs text-dim font-mono">(broken_json: str) → dict</span>
-                        </div>
-                        <p class="text-sm text-txt mb-4">Repairs common JSON syntax errors generated by LLMs — trailing
-                            commas, unquoted keys, single quotes, and truncated output.</p>
-                        <div
-                            class="bg-code border border-border rounded p-3 text-xs font-mono text-dim overflow-x-auto">
-                            <span class="text-dim"># Agent Usage</span><br>
-                            result = heal_json(<span class="text-green-500">"{'name': 'Alice', 'age': 30,}"</span>)
-                            <span class="text-dim"># → {"name": "Alice", "age": 30}</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Utilities -->
-            <section id="utility" class="mb-20">
-                <div class="border-b border-border pb-4 mb-8">
-                    <h2 class="text-2xl font-bold">Utilities</h2>
-                    <p class="text-dim text-sm mt-1">Time, memory, and persistent state for agent workflows.</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <span
-                            class="font-mono text-sm text-green-400 bg-green-400/10 px-2 py-1 rounded mb-3 inline-block">get_time</span>
-                        <p class="text-sm text-dim mt-2">Get current ISO 8601 timestamp for any timezone. Supports 500+
-                            timezones via pytz.</p>
-                        <div class="font-mono text-xs text-dim mt-4 bg-code px-3 py-2 rounded border border-border">
-                            (timezone: str) → str
-                        </div>
-                    </div>
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <span
-                            class="font-mono text-sm text-green-400 bg-green-400/10 px-2 py-1 rounded mb-3 inline-block">remember</span>
-                        <p class="text-sm text-dim mt-2">Store key-value pairs in persistent local memory. Data survives
-                            across agent sessions.</p>
-                        <div class="font-mono text-xs text-dim mt-4 bg-code px-3 py-2 rounded border border-border">
-                            (key: str, value: str) → str
-                        </div>
-                    </div>
-                    <div class="bg-panel border border-border rounded-xl p-6 hover:border-dim transition">
-                        <span
-                            class="font-mono text-sm text-green-400 bg-green-400/10 px-2 py-1 rounded mb-3 inline-block">recall</span>
-                        <p class="text-sm text-dim mt-2">Retrieve stored values from persistent memory by key. Perfect
-                            for maintaining agent context.</p>
-                        <div class="font-mono text-xs text-dim mt-4 bg-code px-3 py-2 rounded border border-border">
-                            (key: str) → str
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-
-        <!-- Footer -->
-        <footer class="border-t border-border py-12 px-6">
-            <div
-                class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-dim">
-                <div>
-                    &copy; 2026 ProtocolBox. MIT License.
-                </div>
-                <div class="flex gap-6 font-medium">
-                    <a href="https://github.com/ianuragbhatt/protocolbox" class="hover:text-txt transition">GitHub</a>
-                    <a href="https://x.com/anuragbhatt" class="hover:text-txt transition">Twitter</a>
                 </div>
             </div>
-        </footer>
 
-    </main>
+            <!-- Logic & Math -->
+            <div class="tool-category cat-blue">
+                <div class="cat-header">
+                    <div class="cat-dot"></div>
+                    <h3>Logic &amp; Data</h3>
+                    <span class="cat-count">2 tools</span>
+                </div>
+                <div class="tool-grid tool-grid-2">
+                    <div class="tool-card">
+                        <div class="tool-name">safe_math</div>
+                        <div class="tool-sig">(expression: str) → str</div>
+                        <div class="tool-desc">Securely evaluates math expressions using AST parsing — <em>zero
+                                eval()</em>. Supports arithmetic, sqrt, floor, ceil, sin, cos, tan, log.</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">heal_json</div>
+                        <div class="tool-sig">(broken_json: str) → dict</div>
+                        <div class="tool-desc">Repairs malformed JSON produced by LLMs. Fixes trailing commas, unquoted
+                            keys, single quotes, and truncated output.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Utilities -->
+            <div class="tool-category cat-green">
+                <div class="cat-header">
+                    <div class="cat-dot"></div>
+                    <h3>Utilities</h3>
+                    <span class="cat-count">3 tools</span>
+                </div>
+                <div class="tool-grid tool-grid-3">
+                    <div class="tool-card">
+                        <div class="tool-name">get_time</div>
+                        <div class="tool-sig">(timezone: str) → str</div>
+                        <div class="tool-desc">Returns the current time in any timezone, formatted as ISO 8601. Supports
+                            500+ timezones.</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">remember</div>
+                        <div class="tool-sig">(key: str, value: str) → str</div>
+                        <div class="tool-desc">Stores a key-value pair in persistent local memory. Data survives across
+                            sessions.</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">recall</div>
+                        <div class="tool-sig">(key: str) → str</div>
+                        <div class="tool-desc">Retrieves a value from persistent memory. Perfect for maintaining agent
+                            context across conversations.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ── CTA ─────────────────────────────────────────── -->
+    <section class="cta">
+        <h2>Ready to build?</h2>
+        <p>ProtocolBox is free, open-source, and MIT licensed.</p>
+        <div class="cta-buttons">
+            <a href="https://github.com/ianuragbhatt/protocolbox" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+                View on GitHub
+            </a>
+            <a href="/llms.txt" class="btn-outline">
+                Read llms.txt →
+            </a>
+        </div>
+    </section>
+
+    <!-- ── Footer ──────────────────────────────────────── -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-left">© 2026 ProtocolBox. MIT License.</div>
+            <ul class="footer-links">
+                <li><a href="https://github.com/ianuragbhatt/protocolbox">GitHub</a></li>
+                <li><a href="https://github.com/ianuragbhatt/protocolbox/blob/master/CONTRIBUTING.md">Contributing</a>
+                </li>
+                <li><a href="https://x.com/anuragbhatt">@anuragbhatt</a></li>
+            </ul>
+        </div>
+    </footer>
 
     <script>
-        // Fetch GitHub stars
         fetch('https://api.github.com/repos/ianuragbhatt/protocolbox')
-            .then(res => res.json())
-            .then(data => {
-                const el = document.getElementById('stars');
-                if (el && data.stargazers_count !== undefined) {
-                    el.textContent = data.stargazers_count;
-                }
-            })
+            .then(r => r.json())
+            .then(d => { if (d.stargazers_count !== undefined) { /* star count available */ } })
             .catch(() => { });
     </script>
 
