@@ -232,7 +232,7 @@
         <header>
             <h1>The Standard Library<br>for the Agentic Web.</h1>
             <p class="subtitle">
-                Verified MCP tools for AI Agents. Scrape clean markdown and fix broken JSON. One
+                Verified MCP tools for AI Agents. Search the web, scrape pages, fix JSON, do math, and more. One
                 command.
             </p>
 
@@ -262,6 +262,36 @@
                 <div class="tool-name">heal_json(str)</div>
                 <div class="tool-desc">Repair malformed LLM outputs. Fixes trailing commas, missing quotes, and
                     truncated JSON.</div>
+            </div>
+            <div class="card">
+                <div class="tool-name">web_search(query)</div>
+                <div class="tool-desc">Privacy-focused web search via DuckDuckGo. Returns formatted Markdown results
+                    — no API key needed.</div>
+            </div>
+            <div class="card">
+                <div class="tool-name">safe_math(expr)</div>
+                <div class="tool-desc">Securely evaluate math expressions using AST parsing. No eval(), no code
+                    injection risk.</div>
+            </div>
+            <div class="card">
+                <div class="tool-name">get_time(tz)</div>
+                <div class="tool-desc">Get current real-world time in any timezone. Returns ISO 8601 format for
+                    precise scheduling.</div>
+            </div>
+            <div class="card">
+                <div class="tool-name">get_transcript(url)</div>
+                <div class="tool-desc">Fetch English transcripts from YouTube videos as clean text for summarization
+                    and analysis.</div>
+            </div>
+            <div class="card">
+                <div class="tool-name">remember(key, val)</div>
+                <div class="tool-desc">Store key-value pairs in persistent local memory. Data survives across agent
+                    sessions.</div>
+            </div>
+            <div class="card">
+                <div class="tool-name">recall(key)</div>
+                <div class="tool-desc">Retrieve stored values from persistent memory by key. Perfect for maintaining
+                    agent context.</div>
             </div>
         </div>
 

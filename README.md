@@ -25,12 +25,18 @@ protocolbox init
 
 ## 🛠️ Tools
 
-ProtocolBox currently exports 2 core tools optimized for agent workflows:
+ProtocolBox currently exports 8 tools optimized for agent workflows:
 
 | Tool | Signature | Description |
 | :--- | :--- | :--- |
 | **Scrape** | `scrape(url: str) -> str` | Fetches a webpage and converts it to clean, token-saving Markdown. Removes ads, scripts, and clutter automatically. |
-| **Heal JSON** | `heal_json(json_str: str) -> dict` | repairs malformed JSON strings often produced by LLMs (trailing commas, missing quotes, etc.) into valid Python dictionaries. |
+| **Heal JSON** | `heal_json(json_str: str) -> dict` | Repairs malformed JSON strings often produced by LLMs (trailing commas, missing quotes, etc.) into valid Python dictionaries. |
+| **Web Search** | `web_search(query: str, max_results: int) -> str` | Privacy-focused web search using DuckDuckGo. Returns formatted Markdown results. |
+| **Safe Math** | `safe_math(expression: str) -> str` | Securely evaluates mathematical expressions without `eval()`. Supports arithmetic and common math functions. |
+| **Get Time** | `get_time(timezone: str) -> str` | Returns the current real-world time in any timezone (ISO 8601 format). |
+| **Get Transcript** | `get_transcript(video_url: str) -> str` | Fetches the English transcript of a YouTube video as clean text. |
+| **Remember** | `remember(key: str, value: str) -> str` | Stores a key-value pair in persistent local memory. |
+| **Recall** | `recall(key: str) -> str` | Retrieves a value from persistent local memory by key. |
 
 ## ⚡ Usage
 
@@ -54,7 +60,14 @@ protocolbox/
 │   ├── server.py         # FastMCP server
 │   ├── cli.py            # CLI entry point
 │   └── tools/            # Tool implementations
-├── tests/                # 115+ edge-case tests
+│       ├── scraper.py    # scrape()
+│       ├── json_healer.py# heal_json()
+│       ├── search.py     # web_search()
+│       ├── math_utils.py # safe_math()
+│       ├── time_utils.py # get_time()
+│       ├── youtube.py    # get_transcript()
+│       └── memory.py     # remember() + recall()
+├── tests/                # 280+ edge-case tests
 ├── docs/                 # Documentation site
 └── pyproject.toml        # Project config
 ```

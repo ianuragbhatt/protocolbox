@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2026-02-15
+
+### Added
+- **Web Search** (`web_search`): Privacy-focused web search using DuckDuckGo with Markdown-formatted results.
+- **Safe Math** (`safe_math`): Secure mathematical expression evaluator using `ast.parse` (no `eval()`). Supports arithmetic and `math` functions.
+- **Get Time** (`get_time`): Real-world time retrieval for any timezone using `pytz`, returns ISO 8601 format.
+- **Get Transcript** (`get_transcript`): YouTube video transcript fetcher via `youtube-transcript-api`.
+- **Memory** (`remember` / `recall`): Persistent local key-value store using `~/.protocolbox/memory.json`.
+- **Tests**: 184 new edge-case tests (283 total) covering all new tools — security, error handling, unicode, and boundary conditions.
+
+### Fixed
+- **YouTube Tool**: Migrated to `youtube-transcript-api` v1.x instance-based API (`api.fetch()` instead of removed `get_transcript()` class method).
+
+### Dependencies
+- Added `duckduckgo-search`, `youtube-transcript-api`, and `pytz`.
+
 ## [0.1.3] - 2026-02-15
 
 ### Removed

@@ -2,10 +2,17 @@
 
 This document outlines the development trajectory for ProtocolBox. We prioritize tools that provide high-leverage capabilities to AI Agents (scrapers, browsers, sandbox execution).
 
+## ✅ Completed (v0.1.x)
+
+- [x] **Core Tools**: `scrape(url)`, `heal_json(broken_json)` — web scraping and JSON repair.
+- [x] **Daily Drivers** (v0.1.4): `web_search`, `safe_math`, `get_time`, `get_transcript`, `remember`, `recall`.
+- [x] **CLI**: `protocolbox init` and `protocolbox start` commands.
+- [x] **CI/CD**: GitHub Actions, Ruff linting, automated PyPI publishing.
+- [x] **Test Suite**: 280+ edge-case tests with 100% pass rate.
+
 ## 🚀 Q1 2026 Objectives (v0.2.0)
 
 ### New Tools
-- [ ] **`search(query)`**: High-performance SERP API wrapper (Google/Bing) for real-time grounding.
 - [ ] **`browser`**: Headless browser control for interacting with dynamic JS-heavy sites (beyond simple scraping).
 - [ ] **`filesystem`**: Safe, sandboxed file I/O permissions for agents to read/write their own workspace.
 

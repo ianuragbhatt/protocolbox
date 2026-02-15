@@ -1,3 +1,3 @@
 """ProtocolBox — The Standard Library for the Agentic Web."""
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
