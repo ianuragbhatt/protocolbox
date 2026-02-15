@@ -1,6 +1,6 @@
 [project]
 name = "protocolbox"
-version = "0.1.2"
+version = "0.1.4"
 description = "The Standard Library for the Agentic Web — verified MCP tools for any AI Agent."
 readme = "README.md"
 authors = [
@@ -17,9 +17,11 @@ dependencies = [
     "mcp>=0.1.0",
     "html2text",
     "json_repair",
-    "reportlab",
     "httpx",
     "typer",
+    "duckduckgo-search",
+    "youtube-transcript-api",
+    "pytz",
 ]
 
 [project.urls]
@@ -49,3 +51,4 @@ select = ["E", "F", "I"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "-q --tb=short --no-header"

@@ -1,7 +1,7 @@
 # ProtocolBox — The Standard Library for AI Agents
 
 > Project: ProtocolBox
-> Version: 0.1.0
+> Version: 0.1.4
 > Website: https://protocolbox.in
 > Repo: https://github.com/ianuragbhatt/protocolbox
 
@@ -71,34 +71,109 @@ Returns: `{"name": "Alice", "age": 30}`
 
 ---
 
-### generate_invoice(data: dict) -> str
+### web_search(query: str, max_results: int = 3) -> str
 
-Generate a professional PDF invoice from structured data.
+Search the web using DuckDuckGo and return formatted Markdown results.
+Privacy-focused — no API key required.
 
-Required fields in `data`:
-- `client_name` (str): Name of the client.
-- `total` (float): Invoice total amount.
-
-Optional fields:
-- `invoice_number` (str): Custom invoice number.
-- `items` (list): Line items with `description`, `qty`, `price`.
-- `currency` (str): Currency symbol (default: "$").
-- `notes` (str): Additional notes.
+Use this tool for:
+- Real-time web grounding to verify facts.
+- Finding current information, documentation, or references.
 
 Example:
 ```json
-{
-  "data": {
-    "client_name": "Acme Corp",
-    "total": 1500.00,
-    "items": [
-      {"description": "Consulting", "qty": 10, "price": 150.00}
-    ]
-  }
-}
+{"query": "Python MCP protocol", "max_results": 5}
 ```
 
-Returns: File path to the generated PDF (e.g., `/tmp/invoice_abc123.pdf`).
+Returns: Markdown with numbered results (title, link, snippet).
+
+---
+
+### safe_math(expression: str) -> str
+
+Securely evaluate a mathematical expression without using eval().
+Uses AST parsing for safety. Supports +, -, *, /, **, % and functions: sqrt, floor, ceil, abs, sin, cos, tan, log.
+
+Use this tool for:
+- Performing calculations safely within agent workflows.
+- Evaluating user-provided math expressions without code injection risk.
+
+Example:
+```json
+{"expression": "sqrt(16) + 2 ** 3"}
+```
+
+Returns: `"12.0"`
+
+---
+
+### get_time(timezone: str = "UTC") -> str
+
+Get the current real-world time in a specified timezone.
+Returns time in ISO 8601 format (YYYY-MM-DD HH:MM:SS TZ).
+
+Use this tool for:
+- Getting the current time in any timezone.
+- Scheduling or time-aware agent decisions.
+
+Example:
+```json
+{"timezone": "Asia/Kolkata"}
+```
+
+Returns: `"2026-02-15 23:30:00 IST"`
+
+---
+
+### get_transcript(video_url: str) -> str
+
+Fetch the English transcript of a YouTube video as clean text.
+Supports standard, short (youtu.be), and embed YouTube URLs.
+
+Use this tool for:
+- Summarizing YouTube video content.
+- Extracting information from video tutorials or lectures.
+
+Example:
+```json
+{"video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
+```
+
+Returns: The full transcript as a single text string.
+
+---
+
+### remember(key: str, value: str) -> str
+
+Store a key-value pair in persistent local memory (~/.protocolbox/memory.json).
+
+Use this tool for:
+- Saving user preferences or context across sessions.
+- Persisting data that the agent needs to recall later.
+
+Example:
+```json
+{"key": "user_name", "value": "Alice"}
+```
+
+Returns: `"Remembered: 'user_name' has been saved."`
+
+---
+
+### recall(key: str) -> str
+
+Retrieve a value from persistent local memory by key.
+
+Use this tool for:
+- Retrieving previously stored preferences or context.
+- Accessing persistent data from earlier sessions.
+
+Example:
+```json
+{"key": "user_name"}
+```
+
+Returns: `"Alice"` (or a "not found" message if the key doesn't exist).
 
 ---
 

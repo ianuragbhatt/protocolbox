@@ -58,7 +58,11 @@ protocolbox/
 │       ├── utils.py         # Shared utilities (HTTP client)
 │       ├── scraper.py       # scrape() tool
 │       ├── json_healer.py   # heal_json() tool
-│       └── invoice.py       # generate_invoice() tool
+│       ├── search.py        # web_search() tool
+│       ├── math_utils.py    # safe_math() tool
+│       ├── time_utils.py    # get_time() tool
+│       ├── youtube.py       # get_transcript() tool
+│       └── memory.py        # remember() + recall() tools
 ├── tests/                   # Test suite (mirrors tool structure)
 ├── docs/                    # Documentation & landing page
 ├── pyproject.toml           # Project config

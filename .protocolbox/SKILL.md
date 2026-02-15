@@ -2,7 +2,7 @@
 name: protocolbox
 description: >
   Standard Library of verified tools for AI Agents.
-  Tools: scrape(url), heal_json(str), generate_invoice(dict).
+  Tools: scrape(url), heal_json(str).
 ---
 
 # ProtocolBox
@@ -31,5 +31,3 @@ uv run protocolbox start
 
 - **scrape(url: str) -> str** — Fetch a web page and return clean Markdown.
 - **heal_json(broken_json: str) -> dict** — Fix malformed JSON from LLM output.
-- **generate_invoice(data: dict) -> str** — Generate a PDF invoice.
-  Requires `client_name` and `total` in data.

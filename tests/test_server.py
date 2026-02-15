@@ -27,12 +27,27 @@ class TestToolRegistration:
     def test_heal_json_registered(self) -> None:
         assert "heal_json" in self._tool_names()
 
-    def test_generate_invoice_registered(self) -> None:
-        assert "generate_invoice" in self._tool_names()
+    def test_web_search_registered(self) -> None:
+        assert "web_search" in self._tool_names()
 
-    def test_exactly_three_tools(self) -> None:
-        """There should be exactly 3 registered tools."""
-        assert len(self._tool_names()) == 3
+    def test_safe_math_registered(self) -> None:
+        assert "safe_math" in self._tool_names()
+
+    def test_get_time_registered(self) -> None:
+        assert "get_time" in self._tool_names()
+
+    def test_get_transcript_registered(self) -> None:
+        assert "get_transcript" in self._tool_names()
+
+    def test_remember_registered(self) -> None:
+        assert "remember" in self._tool_names()
+
+    def test_recall_registered(self) -> None:
+        assert "recall" in self._tool_names()
+
+    def test_exactly_eight_tools(self) -> None:
+        """There should be exactly 8 registered tools."""
+        assert len(self._tool_names()) == 8
 
     def test_no_duplicate_tools(self) -> None:
         """No tool name should appear more than once."""
@@ -56,10 +71,35 @@ class TestToolDescriptions:
         assert tools["heal_json"].description
         assert len(tools["heal_json"].description) > 10
 
-    def test_generate_invoice_has_description(self) -> None:
+    def test_web_search_has_description(self) -> None:
         tools = self._tools_by_name()
-        assert tools["generate_invoice"].description
-        assert len(tools["generate_invoice"].description) > 10
+        assert tools["web_search"].description
+        assert len(tools["web_search"].description) > 10
+
+    def test_safe_math_has_description(self) -> None:
+        tools = self._tools_by_name()
+        assert tools["safe_math"].description
+        assert len(tools["safe_math"].description) > 10
+
+    def test_get_time_has_description(self) -> None:
+        tools = self._tools_by_name()
+        assert tools["get_time"].description
+        assert len(tools["get_time"].description) > 10
+
+    def test_get_transcript_has_description(self) -> None:
+        tools = self._tools_by_name()
+        assert tools["get_transcript"].description
+        assert len(tools["get_transcript"].description) > 10
+
+    def test_remember_has_description(self) -> None:
+        tools = self._tools_by_name()
+        assert tools["remember"].description
+        assert len(tools["remember"].description) > 10
+
+    def test_recall_has_description(self) -> None:
+        tools = self._tools_by_name()
+        assert tools["recall"].description
+        assert len(tools["recall"].description) > 10
 
 
 class TestPackageImports:
@@ -68,18 +108,28 @@ class TestPackageImports:
     def test_version_available(self) -> None:
         from protocolbox import __version__
 
-        assert __version__ == "0.1.0"
+        assert __version__ == "0.1.4"
 
     def test_tools_importable_from_package(self) -> None:
         from protocolbox.tools import (
-            generate_invoice,
+            get_time,
+            get_transcript,
             heal_json,
+            recall,
+            remember,
+            safe_math,
             scrape,
+            web_search,
         )
 
         assert callable(scrape)
         assert callable(heal_json)
-        assert callable(generate_invoice)
+        assert callable(web_search)
+        assert callable(safe_math)
+        assert callable(get_time)
+        assert callable(get_transcript)
+        assert callable(remember)
+        assert callable(recall)
 
     def test_server_importable(self) -> None:
         from protocolbox.server import main
